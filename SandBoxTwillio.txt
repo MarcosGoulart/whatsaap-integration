@@ -1,0 +1,46 @@
+ACCOUNT SID
+AC5c90dd9a03c85f9f499d230fbf3ecbaa
+
+AUTH TOKEN
+54c01eac499fa32f3f90af822ec9065d
+
+
+import com.twilio.Twilio; 
+import com.twilio.converter.Promoter; 
+import com.twilio.rest.api.v2010.account.Message; 
+import com.twilio.type.PhoneNumber; 
+ 
+import java.net.URI; 
+import java.math.BigDecimal; 
+ 
+public class Example { 
+    // Find your Account Sid and Token at twilio.com/console 
+    public static final String ACCOUNT_SID = "AC5c90dd9a03c85f9f499d230fbf3ecbaa"; 
+    public static final String AUTH_TOKEN = "54c01eac499fa32f3f90af822ec9065d"; 
+ 
+    public static void main(String[] args) { 
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN); 
+        Message message = Message.creator( 
+                new com.twilio.type.PhoneNumber("whatsapp:+555391978098"), 
+                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),  
+                "Your appointment is coming up on July 21 at 3PM")      
+            .create(); 
+ 
+        System.out.println(message.getSid()); 
+    } 
+}
+
+const accountSid = 'AC5c90dd9a03c85f9f499d230fbf3ecbaa'; 
+const authToken = '54c01eac499fa32f3f90af822ec9065d'; 
+const client = require('twilio')(accountSid, authToken); 
+ 
+client.messages 
+      .create({ 
+         body: 'Your appointment is coming up on July 21 at 3PM', 
+         from: 'whatsapp:+14155238886',       
+         to: 'whatsapp:+555391978098' 
+       }) 
+      .then(message => console.log(message.sid)) 
+      .done();
+
+

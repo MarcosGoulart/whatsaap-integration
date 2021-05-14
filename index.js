@@ -61,8 +61,8 @@ app.get('/', function (req, res) {
         res.end();
 });
 
-http.createServer(app).listen(1337, () => {
-  console.log('Express server listening on port 1337');
+http.createServer(app).listen(process.env.PORT, () => {
+  console.log('Express server listening on port ' + process.env.PORT);
 });
 
 var initESW = function(gslbBaseURL) {

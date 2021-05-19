@@ -3,7 +3,7 @@ const https = require('https');
 const express = require('express');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const accountSid = 'AC5c90dd9a03c85f9f499d230fbf3ecbaa';
-const authToken = '7665284468f5c06eef4cd0ac04a3a0f9';
+const authToken = 'c4ae6790c598f7ac3b69365a3dac3c77';
 const client = require('twilio')(accountSid, authToken);
 
 

@@ -16,7 +16,7 @@
 const { userInfoStore, userInfoFactory } = require('../database');
 const { services } = require('../services');
 //const MessagingResponse = require('twilio').twiml.MessagingResponse;
-const client = require('twilio')('AC5c90dd9a03c85f9f499d230fbf3ecbaa', '9d9ed937b4b6ff36794dfa6c74c26193');
+const client = require('twilio')('AC5c90dd9a03c85f9f499d230fbf3ecbaa', '65920e268295aa617a04931dd3909a05');
 
 
 const { inspect } = require('util');

@@ -90,6 +90,7 @@ const chatMessage = async (user, message) => {
     }
     try { 
       const response = await request.post('/Chasitor/ChatMessage', body, headers);
+      console.log(inspect(response));
       return response.data;
     } catch (error) {
       console.error(error);

@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2019",
+        "baseUrl": ".",
+        "resolveJsonModule": true,
+        "paths": {
+            "typings/*":["./@types/*"],
+        }
+    }
+}

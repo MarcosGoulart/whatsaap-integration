@@ -77,6 +77,7 @@ module.exports = () => async (req, res) => {
         }
         await services.chatMessage(user, Body);
         user.sequence++;
+        await services.readChatDetails(user);
         await services.syncChatSession(user);
         let response = await services.readChatDetails(user);
         console.log('responde: ' + inspect(response));

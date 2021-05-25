@@ -84,7 +84,7 @@ module.exports = () => async (req, res) => {
             let text = '';
             for(let i = 0; i < response.messages.length; i++){
                 if(response.messages[i].type == 'RichMessage'){
-                    for(let j = 0; j < response.messages[i].message.items.length; j++) text +='\n'+j+': '+ response.messages[i].message.items[j];
+                    for(let j = 0; j < response.messages[i].message.items.length; j++) text +='\n'+j+': '+ response.messages[i].message.items[j].text;
                     client.messages.create({ 
                         body: text, 
                         from: 'whatsapp:+14155238886',       

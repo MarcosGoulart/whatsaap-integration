@@ -42,10 +42,10 @@ module.exports = () => async (req, res) => {
                 for(let i = 0; i < response.messages.length; i++){
                     //.log('response[i].type: ' + response.messages[i].type);
                     if(response.messages[i].type == 'ChatMessage'){
-                        await client.messages.create({ 
+                        client.messages.create({ 
                             body: response.messages[i].message.text, 
                             from: 'whatsapp:+14155238886',       
-                            to: number
+                            to: number 
                         }) 
                         .then(message => console.log('sid:' + message.sid)) 
                         .done();
@@ -75,8 +75,6 @@ module.exports = () => async (req, res) => {
                 }
             }
         }
-        await services.chasitorInit(user);
-        await services.readChatDetails(user);
         await services.chatMessage(user, Body);
         user.sequence++;
         await services.syncChatSession(user);
@@ -87,7 +85,7 @@ module.exports = () => async (req, res) => {
             for(let i = 0; i < response.messages.length; i++){
                 console.log('responde: ' + inspect(response.messages[i]));
                 if(response.messages[i].type == 'RichMessage'){
-                    for(let j = 0; j < response.messages[i].message.items.length; j++) text +='\n'+j+1+': '+ response.messages[i].message.items[j].text;
+                    for(let j = 0; j < response.messages[i].message.items.length; j++) text +='\n'+j+': '+ response.messages[i].message.items[j].text;
                     await client.messages.create({ 
                         body: text, 
                         from: 'whatsapp:+14155238886',       
@@ -97,7 +95,7 @@ module.exports = () => async (req, res) => {
                     .done();
                 }else if(response.messages[i].type == 'ChatMessage'){
                     console.log(response.messages[i].message.text);
-                    await client.messages.create({ 
+                    client.messages.create({ 
                         body: response.messages[i].message.text, 
                         from: 'whatsapp:+14155238886',       
                         to: number 

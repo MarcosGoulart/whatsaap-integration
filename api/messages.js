@@ -75,11 +75,11 @@ module.exports = () => async (req, res) => {
                 }
             }
         }
-        await services.chatMessage(user, Body);
-        user.sequence++;
-        await services.readChatDetails(user);
+
         await services.syncChatSession(user);
         let response = await services.readChatDetails(user);
+        await services.chatMessage(user, Body);
+        user.sequence++;
         console.log('responde: ' + inspect(response));
         if(response.messages){
             let text = '';

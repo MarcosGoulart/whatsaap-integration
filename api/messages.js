@@ -79,13 +79,13 @@ module.exports = () => async (req, res) => {
         user.sequence++;
         await services.syncChatSession(user);
         let response = await services.readChatDetails(user);
-        console.log('responde: ' + inspect(response));
         if(response.messages){
             let text = '';
             for(let i = 0; i < response.messages.length; i++){
+                console.log('responde: ' + inspect(response[i]));
                 if(response.messages[i].type == 'RichMessage'){
                     for(let j = 0; j < response.messages[i].message.items.length; j++) text +='\n'+j+': '+ response.messages[i].message.items[j].text;
-                    client.messages.create({ 
+                    await client.messages.create({ 
                         body: text, 
                         from: 'whatsapp:+14155238886',       
                         to: number 
@@ -93,6 +93,7 @@ module.exports = () => async (req, res) => {
                     .then(message => console.log('sid:' + message.sid)) 
                     .done();
                 }else if(response.messages[i].type == 'ChatMessage'){
+                    console.log(response.messages[i].message.text);
                     client.messages.create({ 
                         body: response.messages[i].message.text, 
                         from: 'whatsapp:+14155238886',       
@@ -103,7 +104,7 @@ module.exports = () => async (req, res) => {
                 }
             }
         }
-        res.sendStatus(200);
+        res.sendStatus(204);
         res.end();
     }
 }

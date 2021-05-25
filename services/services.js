@@ -69,7 +69,7 @@ const readChatDetails = async (user) => {
     }
     try { 
         const response = await request.get('/System/Messages', headers);
-        console.log(inspect(response));
+        //console.log(inspect(response));
         return response.data;
     } catch (error) {
         console.error(error);

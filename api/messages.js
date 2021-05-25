@@ -79,10 +79,11 @@ module.exports = () => async (req, res) => {
         user.sequence++;
         await services.syncChatSession(user);
         let response = await services.readChatDetails(user);
+        console.log('responde: ' + inspect(response));
         if(response.messages){
             let text = '';
             for(let i = 0; i < response.messages.length; i++){
-                console.log('responde: ' + inspect(response[i]));
+                console.log('responde: ' + inspect(response.messages[i]));
                 if(response.messages[i].type == 'RichMessage'){
                     for(let j = 0; j < response.messages[i].message.items.length; j++) text +='\n'+j+': '+ response.messages[i].message.items[j].text;
                     await client.messages.create({ 

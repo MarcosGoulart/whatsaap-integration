@@ -24,65 +24,18 @@ module.exports = () => async (req, res) => {
     const { From, Body, ProfileName } = req.body;
     const number = From;
     let user = await userInfoStore.getByNumber(number);
-    
-    if (!user || !user.sessionId) {
-        let data = await services.generateSessionId();
-        let newUser = userInfoFactory.create({number, sessionId: data.id, key: data.key, affinityToken: data.affinityToken, clientPollTimeout: data.clientPollTimeout, profileName: ProfileName});
-        const userAdded = await userInfoStore.updateOrInsert(newUser);
-        if(userAdded){
-            user = await userInfoStore.getByNumber(number);
-            await services.chasitorInit(user);
-            user.sequence++;
-            await services.readChatDetails(user);
-            await services.chatMessage(user, Body);
-            user.sequence++;
-            await services.syncChatSession(user);
-            const response = await services.readChatDetails(user);
-            if(response.messages){
-                for(let i = 0; i < response.messages.length; i++){
-                    //.log('response[i].type: ' + response.messages[i].type);
-                    if(response.messages[i].type == 'ChatMessage'){
-                        await client.messages.create({ 
-                            body: response.messages[i].message.text, 
-                            from: 'whatsapp:+14155238886',       
-                            to: number
-                        }) 
-                        .then(message => console.log('sid:' + message.sid)) 
-                        .done();
-                    }
-                }
-            }
-            
-            res.sendStatus(200);
-            res.end();
-        } else {
-            return res.status(404).send({ status: 'nok', error: 'unable to add user!' });
-        }
-    } else {
-        const sync = await services.syncChatSession(user);
-        if(sync){
-            if(!sync.isValid){
-                let data = await services.generateSessionId();
-                let newUser = userInfoFactory.create({number, sessionId: data.id, key: data.key, affinityToken: data.affinityToken, clientPollTimeout: data.clientPollTimeout, profileName: ProfileName});
-                const userAdded = await userInfoStore.updateOrInsert(newUser);
-                if(userAdded){
-                    user = await userInfoStore.getByNumber(number);
-                    await services.chasitorInit(user);
-                    user.sequence++;
-                    await services.readChatDetails(user);
-                } else {
-                    return res.status(404).send({ status: 'nok', error: 'unable to update user!' });
-                }
-            }
-        }
-        await services.chatMessage(user, '');
+    let data = await services.generateSessionId();
+    let newUser = userInfoFactory.create({number, sessionId: data.id, key: data.key, affinityToken: data.affinityToken, clientPollTimeout: data.clientPollTimeout, profileName: ProfileName});
+    const userAdded = await userInfoStore.updateOrInsert(newUser);
+    if(userAdded){
+        user = await userInfoStore.getByNumber(number);
+        await services.chasitorInit(user);
+        user.sequence++;
         await services.readChatDetails(user);
         await services.chatMessage(user, Body);
         user.sequence++;
         await services.syncChatSession(user);
-        
-        let response = await services.readChatDetails(user);
-        console.log('responde: ' + inspect(response));
+        const response = await services.readChatDetails(user);
         if(response.messages){
             let text = '';
             for(let i = 0; i < response.messages.length; i++){
@@ -108,7 +61,11 @@ module.exports = () => async (req, res) => {
                 }
             }
         }
-        res.sendStatus(204);
+            
+        res.sendStatus(200);
         res.end();
+    } else {
+        return res.status(404).send({ status: 'nok', error: 'unable to add user!' });
     }
+    
 }
